@@ -51,5 +51,6 @@ python python.py gui
 ---
 ## Demo
 ![Demo](demo.PNG)
-
+![Demo](demo2.PNG)
+![Demo](demo3.PNG)
 ---
