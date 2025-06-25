@@ -19,7 +19,7 @@ Built using Python, TensorFlow, and a lightweight Tkinter GUI, this app is a pra
 
 - Python 3
 - TensorFlow / Keras – for model building and training
-- Tkinter** – to create the GUI window
+- Tkinter – to create the GUI window
 - NumPy & Pillow (PIL) – for image manipulation
 
 ---
