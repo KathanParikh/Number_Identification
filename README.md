@@ -33,11 +33,6 @@ pip install -r requirements.txt
 ```bash
 python python.py
 ```
-This will:
-- Download the MNIST dataset
-- Train a simple neural network for 5 epochs
-- Save the model to a file named mnist_model.h5
-- Note: You only need to run this step once unless you want to retrain the model.
 
 ### 4. Launch the Digit Drawing GUI
 - Once the model is trained, launch the interactive interface where you can draw digits:
