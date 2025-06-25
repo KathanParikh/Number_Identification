@@ -1,31 +1,57 @@
-# Number Identification – Handwritten Digit Recognition
+#  Number Identification – Handwritten Digit Recognition
 
-Welcome to Number Identification, a fun and interactive project where you can draw a number on the screen and watch a neural network guess what it is. This project combines the power of deep learning with a simple user interface to recognize digits written by hand — just like the MNIST dataset it's trained on.
-
-Built using Python, TensorFlow, and a lightweight Tkinter GUI, this app is a practical demonstration of computer vision and neural networks applied in a real-time environment.
+Welcome to Number Identification, a fun and interactive project where you can draw a digit on the screen, and a trained neural network will predict what it is. This project combines deep learning with a simple GUI, offering a hands-on demonstration of digit recognition using the MNIST dataset.
 
 ---
 
-# What It Does
+#  Features
 
-- Opens a window where users can draw a digit (0–9) using the mouse.
-- Preprocesses the drawing (resizing, inversion, normalization).
-- Feeds it into a trained neural network based on the MNIST dataset.
-- Outputs the predicted digit with high accuracy.
-
----
-
-# Tech Stack
-
-- Python 3
-- TensorFlow / Keras – for model building and training
-- Tkinter – to create the GUI window
-- NumPy & Pillow (PIL) – for image manipulation
+- 🖌 Draw digits (0–9) directly in a window
+-  Predicts handwritten digits using a trained neural network
+-  Built on the MNIST dataset for high accuracy
+-  Easy to clear and redraw with a button click
+-  Real-time prediction using a lightweight, efficient model
 
 ---
 
-### 1. Clone the repository
+## 🛠️ How to Run
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/KathanParikh/Number_Identification.git
 cd Number_Identification
+```
+### 2. Install Required Dependencies
+Install the necessary Python packages using pip:
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Train the Model
+To train the neural network on the MNIST dataset and save the trained model locally:
+```bash
+python python.py
+```
+This will:
+
+Download the MNIST dataset
+
+Train a simple neural network for 5 epochs
+
+Save the model to a file named mnist_model.h5
+
+Note: You only need to run this step once unless you want to retrain the model.
+
+### 4. Launch the Digit Drawing GUI
+Once the model is trained, launch the interactive interface where you can draw digits:
+```bash
+python python.py gui
+```
+A window will open where you can draw a number (0–9) using your mouse.
+
+Click "Predict" to let the model guess your digit.
+
+Use "Clear" to reset the canvas and try again.
+
+
