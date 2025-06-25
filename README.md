@@ -49,4 +49,7 @@ python python.py gui
 - Use "Clear" to reset the canvas and try again.
 
 ---
+## Demo
+![Demo](demo.PNG)
 
+---
