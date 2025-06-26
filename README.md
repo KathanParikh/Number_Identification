@@ -31,13 +31,13 @@ pip install -r requirements.txt
 ### 3. Train the Model
 - To train the neural network on the MNIST dataset and save the trained model locally:
 ```bash
-python python.py
+python main.py
 ```
 
 ### 4. Launch the Digit Drawing GUI
 - Once the model is trained, launch the interactive interface where you can draw digits:
 ```bash
-python python.py gui
+python main.py gui
 ```
 - A window will open where you can draw a number (0–9) using your mouse.
 - Click "Predict" to let the model guess your digit.
