@@ -5,6 +5,7 @@ import tkinter as tk
 from PIL import Image, ImageDraw, ImageOps
 import io
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Load MNIST dataset
 def train_and_save_model():
@@ -48,18 +49,43 @@ class App(tk.Tk):
         self._init_draw()
 
     def _init_widgets(self):
-        self.canvas = tk.Canvas(self, width=self.canvas_width, height=self.canvas_height, bg='white')
-        self.canvas.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
+        # Create main frame
+        main_frame = tk.Frame(self)
+        main_frame.pack(pady=10, padx=10)
+        
+        # Left side - drawing canvas
+        left_frame = tk.Frame(main_frame)
+        left_frame.pack(side=tk.LEFT, padx=(0, 10))
+        
+        self.canvas = tk.Canvas(left_frame, width=self.canvas_width, height=self.canvas_height, bg='white')
+        self.canvas.pack()
         self.canvas.bind('<B1-Motion>', self.draw)
         self.canvas.bind('<Button-1>', self.set_last_xy)
 
-        predict_btn = tk.Button(self, text='Predict', command=self.predict)
-        predict_btn.grid(row=1, column=0, pady=10)
-        clear_btn = tk.Button(self, text='Clear', command=self.clear)
-        clear_btn.grid(row=1, column=1, pady=10)
+        predict_btn = tk.Button(left_frame, text='Predict', command=self.predict)
+        predict_btn.pack(pady=5)
+        clear_btn = tk.Button(left_frame, text='Clear', command=self.clear)
+        clear_btn.pack(pady=5)
 
-        result_label = tk.Label(self, textvariable=self.result_var, font=('Arial', 18))
-        result_label.grid(row=2, column=0, columnspan=2, pady=10)
+        result_label = tk.Label(left_frame, textvariable=self.result_var, font=('Arial', 18))
+        result_label.pack(pady=5)
+        
+        # Right side - matplotlib plot
+        right_frame = tk.Frame(main_frame)
+        right_frame.pack(side=tk.RIGHT)
+        
+        # Create matplotlib figure
+        self.fig, self.ax = plt.subplots(figsize=(6, 4))
+        self.canvas_widget = FigureCanvasTkAgg(self.fig, right_frame)
+        self.canvas_widget.get_tk_widget().pack()
+        
+        # Initialize empty plot
+        self.ax.set_xlabel('Digit')
+        self.ax.set_ylabel('Probability')
+        self.ax.set_title('Prediction Probabilities')
+        self.ax.set_xticks(range(10))
+        self.ax.set_ylim(0, 1)
+        self.canvas_widget.draw()
 
     def _init_draw(self):
         self.image1 = Image.new('L', (self.canvas_width, self.canvas_height), 'white')
@@ -79,6 +105,15 @@ class App(tk.Tk):
         self.canvas.delete('all')
         self._init_draw()
         self.result_var.set('')
+        
+        # Clear the plot
+        self.ax.clear()
+        self.ax.set_xlabel('Digit')
+        self.ax.set_ylabel('Probability')
+        self.ax.set_title('Prediction Probabilities')
+        self.ax.set_xticks(range(10))
+        self.ax.set_ylim(0, 1)
+        self.canvas_widget.draw()
 
     def preprocess(self):
         # Convert to numpy array
@@ -108,6 +143,23 @@ class App(tk.Tk):
         pred = self.model.predict(img)[0]
         digit = np.argmax(pred)
         confidence = pred[digit] * 100
+        
+        # Clear and update the embedded plot
+        self.ax.clear()
+        bars = self.ax.bar(range(10), pred, color=['#4caf50' if i == digit else '#2196f3' for i in range(10)])
+        self.ax.set_xlabel('Digit')
+        self.ax.set_ylabel('Probability')
+        self.ax.set_title(f'Prediction Probabilities (Predicted: {digit})')
+        self.ax.set_xticks(range(10))
+        self.ax.set_ylim(0, 1)
+        
+        # Annotate bars with probability values
+        for i, bar in enumerate(bars):
+            self.ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), f'{pred[i]:.2f}',
+                        ha='center', va='bottom', fontsize=10)
+        
+        self.fig.tight_layout()
+        self.canvas_widget.draw()
         self.result_var.set(f'Prediction: {digit} ({confidence:.2f}%)')
 
 
